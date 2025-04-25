@@ -6,15 +6,38 @@ import time
 import matplotlib.pyplot as plt
 
 
-def create_grid(rows, cols, obstacle_prob=0.3):
+def create_grid(rows, cols, start=(0, 0), goal=None, obstacle_prob=0.3):
+    """
+    Create a grid with random obstacles.
+    :param rows: Number of rows in the grid.
+    :param cols: Number of columns in the grid.
+    :param start: Starting position (row, col).
+    :param goal: Goal position (row, col). If None, default to bottom-right corner.
+    """
+    if goal is None:
+        goal = (rows - 1, cols - 1)
+
     grid = np.ones((rows, cols))
+
     for i in range(rows):
         for j in range(cols):
-            if np.random.random() < obstacle_prob:
-                grid[i, j] = float('inf')  # obstacle
+            if (i, j) == start or (i, j) == goal:
+                continue  # No obstacles at start or goal
+
+            rand = np.random.random()
+            if rand < obstacle_prob:
+                grid[i, j] = float('inf')  # Obstacle
+            elif rand < obstacle_prob + 0.2:
+                grid[i, j] = 5  # Mountain
+            elif rand < obstacle_prob + 0.4:
+                grid[i, j] = 2  # Sand
+            else:
+                grid[i, j] = 1  # Normal path
+
     return grid
 
 
+# Function to find the optimal path using dynamic programming
 def optimal_path_dp(grid, start, goal):
     rows, cols = grid.shape
     cost = np.full((rows, cols), float('inf'))
@@ -93,7 +116,7 @@ def run_algorithm():
         start = (start_r, start_c)
         goal = (goal_r, goal_c)
 
-        grid = create_grid(rows, cols)
+        grid = create_grid(rows, cols, start=start, goal=goal)
         path, cost, exec_time = optimal_path_dp(grid, start, goal)
 
         if path:
@@ -105,34 +128,38 @@ def run_algorithm():
     except ValueError:
         messagebox.showerror("Lỗi", "Vui lòng nhập các số nguyên hợp lệ!")
 
-
-# =======================
-# Giao diện Tkinter
-# =======================
+        # ==== Giao diện Tkinter cải tiến ====
 root = tk.Tk()
 root.title("Tìm đường đi tối ưu")
+root.geometry("320x300")
+root.resizable(False, False)
+root.configure(bg="#f0f2f5")
 
-tk.Label(root, text="Số hàng (rows):").grid(row=0, column=0, sticky='e')
-tk.Label(root, text="Số cột (cols):").grid(row=1, column=0, sticky='e')
-tk.Label(root, text="Bắt đầu - hàng:").grid(row=2, column=0, sticky='e')
-tk.Label(root, text="Bắt đầu - cột:").grid(row=3, column=0, sticky='e')
-tk.Label(root, text="Kết thúc - hàng:").grid(row=4, column=0, sticky='e')
-tk.Label(root, text="Kết thúc - cột:").grid(row=5, column=0, sticky='e')
+main_frame = tk.Frame(root)
+main_frame.grid(row=0, column=0, sticky="nsew", padx=12, pady=12)
 
-entry_rows = tk.Entry(root)
-entry_cols = tk.Entry(root)
-entry_start_r = tk.Entry(root)
-entry_start_c = tk.Entry(root)
-entry_goal_r = tk.Entry(root)
-entry_goal_c = tk.Entry(root)
 
-entry_rows.grid(row=0, column=1)
-entry_cols.grid(row=1, column=1)
-entry_start_r.grid(row=2, column=1)
-entry_start_c.grid(row=3, column=1)
-entry_goal_r.grid(row=4, column=1)
-entry_goal_c.grid(row=5, column=1)
+# Tiêu đề
+tk.Label(main_frame, text="Thông số Lưới", font=("Arial", 14, "bold")).grid(row=0, column=0, columnspan=2, pady=(0, 10))
 
-tk.Button(root, text="Chạy thuật toán", command=run_algorithm).grid(row=6, column=0, columnspan=2, pady=10)
+# Danh sách nhãn và entry
+labels = [
+    "Số hàng (rows):", "Số cột (cols):",
+    "Bắt đầu - hàng:", "Bắt đầu - cột:",
+    "Kết thúc - hàng:", "Kết thúc - cột:"
+]
+
+entries = []
+
+for i, label in enumerate(labels):
+    tk.Label(main_frame, text=label, font=("Arial", 10)).grid(row=i+1, column=0, sticky="e", padx=5, pady=5)
+    entry = tk.Entry(main_frame, width=20)
+    entry.grid(row=i+1, column=1, pady=5)
+    entries.append(entry)
+
+entry_rows, entry_cols, entry_start_r, entry_start_c, entry_goal_r, entry_goal_c = entries
+
+# Nút chạy thuật toán
+tk.Button(main_frame, text="Chạy thuật toán", command=run_algorithm).grid(row=7, column=0, columnspan=2, pady=15)
 
 root.mainloop()
