@@ -72,6 +72,24 @@ def optimal_path_dp(grid, start, goal):
 
 
 def visualize_path_tk(grid, path, canvas_frame):
+    """
+    Visualizes a grid and an optimal path using Matplotlib and embeds it into a Tkinter canvas.
+    Parameters:
+        grid (numpy.ndarray): A 2D array representing the grid with cost values for each cell.
+                              Cells with a value of `float('inf')` are considered impassable.
+        path (list of tuple): A list of (row, column) tuples representing the optimal path.
+                              The path is drawn as a red line, with the start marked in green
+                              and the end marked in red.
+        canvas_frame (tkinter.Frame): A Tkinter frame where the Matplotlib figure will be embedded.
+    Behavior:
+        - Clears any existing widgets in the `canvas_frame`.
+        - Displays the grid with costs overlaid on each cell.
+        - Highlights the path if provided, with a red line connecting the cells in the path.
+        - The start of the path is marked with a green circle, and the end is marked with a red circle.
+        - Adjusts text color based on the cost value for better visibility.
+    Note:
+        This function requires Matplotlib and its integration with Tkinter (`FigureCanvasTkAgg`).
+    """
     # Xóa các plot trước đó nếu có
     for widget in canvas_frame.winfo_children():
         widget.destroy()

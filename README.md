@@ -1,13 +1,44 @@
 # Robot_Nav_DP
- Robot Navigation using Dynamic Programming
- This repository contains a Python implementation of a robot navigation problem using dynamic programming.
- The robot is placed in a grid and can move in four directions (up, down, left, right).
- The goal is to find the optimal path from the start position to the goal position while avoiding obstacles.
- The implementation uses a dynamic programming approach to calculate the cost of each cell in the grid.
- The cost is defined as the sum of the costs of the cells in the path from the start to the goal.
- The implementation also includes a visualization of the grid and the optimal path.    
- The code is written in Python and uses the Tkinter library for visualization.
- The code is organized into several classes and functions, each responsible for a specific part of the implementation.
- The main classes are:
- - Grid: Represents the grid and contains methods for calculating the cost of each cell.
- - Robot: Represents the robot and contains methods for moving the robot in the grid.
+This repository contains a Python implementation of a robot navigation algorithm using Dynamic Programming (DP), Dijkstra, Hybrid Dynamic Programming Dijkstra to find the shortest path in a grid environment. The robot can move in four directions: up, down, left, and right. The algorithm takes into account obstacles in the grid and computes the optimal path from a start position to a goal position.
+## Table of Contents
+- [Robot_Nav_DP](#robot_nav_dp)
+  - [Table of Contents](#table-of-contents)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Algorithm Explanation](#algorithm-explanation)
+  - [Example](#example)
+  - [License](#license)
+  - [Contributing](#contributing)
+  - [Contact](#contact)
+  - [References](#references)
+  - [Future Work](#future-work)
+  - [Limitations](#limitations)
+    - [Acknowledgements](#acknowledgements)
+    - [Disclaimer](#disclaimer)
+    - [Author](#author)
+    - [Version](#version)
+
+```
+## Usage
+To use the robot navigation algorithm, you can run the `robot_nav.py` script. The script takes the following command-line arguments:
+```bash
+python Dijkstra.py --start_x <start_x> --start_y <start_y> --goal_x <goal_x> --goal_y <goal_y> --obstacles <obstacles>
+```
+- `start_x`: The x-coordinate of the starting position.
+- `start_y`: The y-coordinate of the starting position.
+- `goal_x`: The x-coordinate of the goal position.
+- `goal_y`: The y-coordinate of the goal position.
+- `obstacles`: A list of tuples representing the coordinates of obstacles in the grid. For example, `[(1, 2), (3, 4)]` represents obstacles at (1, 2) and (3, 4).
+- `--algorithm`: The algorithm to use for pathfinding. Options are `dijkstra`, `dynamic_programming`, or `hybrid_dijkstra`. Default is `dijkstra`.
+- `--grid_size`: The size of the grid. Default is `10`.
+- `--show_path`: Whether to visualize the path. Default is `False`.
+- `--show_grid`: Whether to visualize the grid. Default is `False`.
+- `--show_obstacles`: Whether to visualize the obstacles. Default is `False`.
+- `--show_start_goal`: Whether to visualize the start and goal positions. Default is `False`.
+- `--show_grid_with_path`: Whether to visualize the grid with the path. Default is `False`.
+- `--show_grid_with_obstacles`: Whether to visualize the grid with obstacles. Default is `False`.
+- `--show_grid_with_start_goal`: Whether to visualize the grid with start and goal positions. Default is `False`.
+- `--show_grid_with_start_goal_path`: Whether to visualize the grid with start, goal, and path. Default is `False`.
+- `--show_grid_with_start_goal_obstacles`: Whether to visualize the grid with start, goal, and obstacles. Default is `False`.
+- `--show_grid_with_start_goal_obstacles_path`: Whether to visualize the grid with start, goal, obstacles, and path. Default is `False`.
+- `--show_grid_with_start_goal_obstacles_path_grid`: Whether to visualize the grid with start, goal, obstacles, and path in a grid format. Default is `False`.
